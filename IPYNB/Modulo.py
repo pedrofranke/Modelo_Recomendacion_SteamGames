@@ -42,8 +42,8 @@ def get_names(ruta): #como input la ruta A LA CARPETA
     nombres = []
     for i in lista_inicial:
         if '.json.gz' in i: #si es .json.gz
-            lista_limpia.append('Datasets/'+i) #llenamos la lista con el nombre de carpeta al inicio
-            lista_final.append('Datasets/parquet/'+i.replace('.json.gz','.parquet')) #llenamos la lista final con el cambio a csv
+            lista_limpia.append('../Datasets/'+i) #llenamos la lista con el nombre de carpeta al inicio
+            lista_final.append('../Datasets/parquet/'+i.replace('.json.gz','.parquet')) #llenamos la lista final con el cambio a csv
             nombres.append(i.replace('.json.gz',''))
   
     nom = dict(zip(nombres,list(zip(lista_limpia,lista_final))))
