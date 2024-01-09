@@ -119,7 +119,7 @@ El proceder de este trabajo se encuentra en [Modelo Recomendacion](https://githu
 
 Como se indicó anteriormente, para el despliegue automático, Render utiliza GitHub y dado que el servicio gratuito cuenta con una limitada capacidad de almacenamiento, se realizó un repositorio exclusivo para el deploy, el cual se encuenta [aqui](https://github.com/pedrofranke/Recomendacion_Steamgames_deploy).
 
-**`Video`**: Se puede encontrar el video con la explicacion de lo realizado en el siguiente link: [link video]()
+**`Video`**: Se puede encontrar el video con la explicacion de lo realizado en el siguiente link: [link video](https://www.loom.com/share/eaa0093291924519a44ea4e018400797?sid=05b94f3d-a7fc-4638-86fb-9ea38a8a8498)
 
 ## **Consideraciones adicionales**
 
