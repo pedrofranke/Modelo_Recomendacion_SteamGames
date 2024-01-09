@@ -101,3 +101,20 @@ def sentimientos(valor): #analisis de sentimientos usando Textblob, simple pero 
     else:
         return 1
     
+def convertir_proper(valor):
+    if isinstance(valor,str):
+        valor = valor.strip()
+        valor = valor.title()
+        return valor
+    else:
+        return valor
+    
+def porcentaje_repr(df,column):
+    dic = {'Valor': [], 'Cantidad': [], 'Porcentaje': []}
+    df_count = df[column].value_counts()
+    for i,v in df_count.items():
+        dic['Valor'].append(i)
+        dic['Cantidad'].append(v)
+        dic['Porcentaje'].append(round((v/df_count.sum()*100),2))
+    dfs = pd.DataFrame(dic)
+    return dfs
