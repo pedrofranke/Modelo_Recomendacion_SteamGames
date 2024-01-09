@@ -1,16 +1,16 @@
 import pandas as pd
 import operator
 
-df_playtime = pd.read_parquet('../Datasets/parquet/API/playtime_red.parquet')
-df_feel = pd.read_parquet('../Datasets/parquet/API/feel.parquet')
+df_playtime = pd.read_parquet('Datasets/parquet/API/playtime_red.parquet')
+df_feel = pd.read_parquet('Datasets/parquet/API/feel.parquet')
 lista_generos = list(df_playtime.genres.sort_values().unique())
 lista_anios = list(df_feel.release_year.sort_values().unique())
 lista_empresa = list(df_feel.developer.unique())
 
-user_rating_sim_df = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/user_rating_sim_df_red.parquet')
-user_ratings_matrix = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/user_ratings_matrix_red.parquet')
-diccionario_juegos = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/diccionario_juegos_red.parquet')
-item_sim_df = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/item_sim_df_red.parquet')
+user_rating_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user_rating_sim_df_red.parquet')
+user_ratings_matrix = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user_ratings_matrix_red.parquet')
+diccionario_juegos = pd.read_parquet('Datasets/parquet/Recomendacion/Final/diccionario_juegos_red.parquet')
+item_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/item_sim_df_red.parquet')
 
 def presentacion():
     return '''

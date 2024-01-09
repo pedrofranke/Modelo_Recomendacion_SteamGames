@@ -105,7 +105,7 @@ def sentiment_analysis(empresa: str = Query(...,
          tags=["Recomendación"])
 def recomendacion_juego(item_id: int = Query(..., 
                                          description="ID del juego a partir del cuál se hace la recomendación de otros juego", 
-                                         example="Killing Floor")):
+                                         example=1250)):
     return fp.recomendacion_juego(item_id)
 
 

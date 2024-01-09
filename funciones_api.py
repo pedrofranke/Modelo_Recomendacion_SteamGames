@@ -1,16 +1,16 @@
 import pandas as pd
 import operator
 
-df_playtime = pd.read_parquet('../Datasets/parquet/API/playtime.parquet')
-df_feel = pd.read_parquet('../Datasets/parquet/API/feel.parquet')
+df_playtime = pd.read_parquet('Datasets/parquet/API/playtime.parquet')
+df_feel = pd.read_parquet('Datasets/parquet/API/feel.parquet')
 lista_generos = list(df_playtime.genres.sort_values().unique())
 lista_anios = list(df_feel.release_year.sort_values().unique())
 lista_empresa = list(df_feel.developer.unique())
 
-user_rating_sim_df = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/user_rating_sim_df.parquet')
-user_ratings_matrix = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/user_ratings_matrix.parquet')
-diccionario_juegos = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/diccionario_juegos.parquet')
-item_sim_df = pd.read_parquet('../Datasets/parquet/Recomendacion/Final/item_sim_df.parquet')
+user_rating_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user_rating_sim_df.parquet')
+user_ratings_matrix = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user_ratings_matrix.parquet')
+diccionario_juegos = pd.read_parquet('Datasets/parquet/Recomendacion/Final/diccionario_juegos.parquet')
+item_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/item_sim_df.parquet')
 
 def presentacion():
     return '''
@@ -48,7 +48,7 @@ def PlayTimeGenre(genre):
         return 'El genero elegido no es valido'
     df_plf = df_playtime[df_playtime['genres'] == genre].groupby(['release_year'])['playtime_forever'].sum().sort_values(ascending=False)
     anio = df_plf.index[0]
-    dic = {f"Año de lanzamiento con más horas jugadas para Género {genre}": anio}
+    dic = {f"Año de lanzamiento con más horas jugadas para Género {genre}": str(anio)}
     return dic
 
 def UserForGenre(genre):
@@ -62,7 +62,7 @@ def UserForGenre(genre):
     for index,value in df_plu.items():
         if value == 0:
             continue
-        lista.append({f'Año: {index}':f'Horas: {value/60}'})
+        lista.append({f'Año: {index}':f'Horas: {round(value/60,0)}'})
     dic.update({'Horas jugadas':lista})
     return dic
 
@@ -105,11 +105,12 @@ def recomendacion_juego(item_id):
         item_name = diccionario_juegos[diccionario_juegos.item_id==item_id].item_name.values[0]
     except:
         return print(f'Sin informacion disponible para el juego {item_id}')
+    lista = []
     count = 1
-    print(f'Los Juegos similares a ID juego {item_id}, nombre {item_name} son:\n')
     for item in item_sim_df.sort_values(by = item_name, ascending = False).index[1:6]:
-        print(f'No. {count}: ID {diccionario_juegos[diccionario_juegos.item_name==item].item_id.values[0]}, nombre {item}')
+        lista.append({'Puesto':str(count),'ID':str(diccionario_juegos[diccionario_juegos.item_name==item].item_id.values[0]),'Nombre':str(item)})
         count +=1
+    return lista
 
 def recomendacion_usuario(user_id):
     similarity_constant = 0.7
@@ -136,8 +137,9 @@ def recomendacion_usuario(user_id):
     
     sorted_list = sorted(most_common.items(), key=operator.itemgetter(1), reverse=True)
     
-    print(f'Los juegos mas recomendados segun usuarios relacionados para el usuario {user_id} son:\n')
+    lista = []
     count = 1
     for i in sorted_list[:5]:
-        print(f'No. {count}: {i[0]}')
+        lista.append({'Puesto':str(count),'ID':str(diccionario_juegos[diccionario_juegos.item_name==i[0]].item_id.values[0]),'Nombre':str(i[0])})
         count +=1
+    return lista
