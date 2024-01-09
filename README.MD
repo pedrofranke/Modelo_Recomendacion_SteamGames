@@ -33,9 +33,8 @@ Debes empezar desde 0, haciendo un trabajo rápido de **`Data Engineer`** y tene
 <img src="https://github.com/HX-PRomero/PI_ML_OPS/raw/main/src/DiagramaConceptualDelFlujoDeProcesos.png"  height=500>
 </p>
 
-<sub> Nota que aquí se reflejan procesos, no herramientas tecnológicas. Haz el ejercicio de entender qué herramienta del stack corresponde a cada parte del proceso<sub/>
 
-## **Propuesta de trabajo (requerimientos de aprobación)**
+## **Desarrollo del trabajo**
 
 **`Transformaciones`**:  Se realizo un ETL de los tres subconjuntos que se encuentran [aca](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/tree/master/Datasets). Una vez extraidos los datos y desanidados los archivos, se procedio a la transformacion. En dicha transformacion, se validaron y corrigieron los formatos, eliminaron duplicados, completaron datos faltantes y seleccionaron las columnas pertinentes para poder continuar con el desarrollo del trabajo. <br>Una vez finalizado, se procedio a guardar los archivos en formato parquet para hacer uso de ellos en los pasos siguientes.<br> El proceder de este trabajo se encuentra en [ETL](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/blob/master/IPYNB/01_ETL.ipynb) y los datos finales del analisis se encuentran en [Datos](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/tree/master/Datasets/parquet).
 
