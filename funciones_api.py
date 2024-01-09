@@ -1,6 +1,8 @@
 import pandas as pd
 import operator
 
+# lectura de datasets
+
 df_playtime = pd.read_parquet('Datasets/parquet/API/playtime.parquet')
 df_feel = pd.read_parquet('Datasets/parquet/API/feel.parquet')
 lista_generos = list(df_playtime.genres.sort_values().unique())
@@ -12,7 +14,7 @@ user_ratings_matrix = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user
 diccionario_juegos = pd.read_parquet('Datasets/parquet/Recomendacion/Final/diccionario_juegos.parquet')
 item_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/item_sim_df.parquet')
 
-def presentacion():
+def presentacion(): # estructura html de la pagina de inicio
     return '''
     <html>
         <head>

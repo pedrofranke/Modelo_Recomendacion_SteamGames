@@ -10,6 +10,8 @@ importlib.reload(fp)
 app = FastAPI()
 
 # Funciones
+
+# funcion de response
 @app.get(path="/", 
          response_class=HTMLResponse,
          tags=["Home"])
@@ -22,6 +24,7 @@ def home():
     '''
     return fp.presentacion()
 
+# funcion PlayTimeGenre
 @app.get(path = '/PlayTimeGenre',
           description = """ <font color="blue">
                         INSTRUCCIONES<br>
@@ -37,7 +40,7 @@ def PlayTimeGenre(genre: str = Query(...,
         
     return fp.PlayTimeGenre(genre)
     
-    
+# funcion UserForGenre
 @app.get(path = '/UserForGenre',
           description = """ <font color="blue">
                         INSTRUCCIONES<br>
@@ -52,7 +55,7 @@ def UserForGenre(genre: str = Query(...,
                                 example='Action')):
     return fp.UserForGenre(genre)
 
-
+# funcion UsersRecommend
 @app.get(path = '/UsersRecommend',
           description = """ <font color="blue">
                         1. Haga clik en "Try it out".<br>
@@ -66,7 +69,7 @@ def UsersRecommend(year: str = Query(...,
                             example='2016')):
     return fp.UsersRecommend(year)
 
-
+# funcion UserWorstDeveloper
 @app.get(path = '/UsersWorstDeveloper',
           description = """ <font color="blue">
                         1. Haga clik en "Try it out".<br>
@@ -80,6 +83,7 @@ def UsersWorstDeveloper(year: str = Query(...,
                             example='2016')):
     return fp.UsersWorstDeveloper(year)
 
+# funcion sentiment_analysis
 @app.get(path = '/sentiment_analysis',
           description = """ <font color="blue">
                         1. Haga clik en "Try it out".<br>
@@ -93,7 +97,7 @@ def sentiment_analysis(empresa: str = Query(...,
                             example='Valve')):
     return fp.sentiment_analysis(empresa)
 
-
+# funcion recomendacion_juego
 @app.get('/recomendacion_juego',
          description=""" <font color="blue">
                     INSTRUCCIONES<br>
@@ -108,7 +112,7 @@ def recomendacion_juego(item_id: int = Query(...,
                                          example=1250)):
     return fp.recomendacion_juego(item_id)
 
-
+# funcion recomendacion_usuario
 @app.get('/recomendacion_usuario',
          description=""" <font color="blue">
                     INSTRUCCIONES<br>
