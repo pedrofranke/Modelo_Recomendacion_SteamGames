@@ -100,14 +100,26 @@ Este sistema esta basado en que juegos fueron bien puntuados por los usuarios qu
 
 El proceder de este trabajo se encuentra en [Modelo Recomendacion](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/blob/master/IPYNB/06_Modelo_Recomendacion.ipynb) y una simplificacion adicional de las bases de datos para poder deployar en render se encuentra en [Datos](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/tree/master/Datasets/parquet/Recomendacion/Final).<br>
 
-**`Desarrollo API`**: Necesitas que al equipo le quede claro que tus herramientas funcionan realmente! Haces un video mostrando el resultado de las consultas propuestas y de tu modelo de ML entrenado! Recuerda presentarte, contar muy brevemente de que trata el proyecto y lo que vas a estar mostrando en el video.
-Para grabarlo, puedes usar la herramienta Zoom, haciendo una videollamada y grabando la pantalla, aunque seguramente buscando, encuentres muchas formas más. 😉
+**`Desarrollo API`**: El código para generar la API se encuentra en el archivo [main.py](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/blob/master/main.py) y las funciones para su funcionamiento se encuentran en [api_functions](https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames/blob/master/funciones_api.py). En caso de querer ejecutar la API desde localHost se deben seguir los siguientes pasos:
 
-**`Deployment`**: Necesitas que al equipo le quede claro que tus herramientas funcionan realmente! Haces un video mostrando el resultado de las consultas propuestas y de tu modelo de ML entrenado! Recuerda presentarte, contar muy brevemente de que trata el proyecto y lo que vas a estar mostrando en el video.
-Para grabarlo, puedes usar la herramienta Zoom, haciendo una videollamada y grabando la pantalla, aunque seguramente buscando, encuentres muchas formas más. 😉
+- Clonar el proyecto haciendo `git clone https://github.com/pedrofranke/Modelo_Recomendacion_SteamGames.git`.
+- Preparación del entorno de trabajo en Visual Studio Code:
+    * Crear entorno `Python -m venv env`
+    * Ingresar al entorno haciendo `env\Scripts\activate`
+    * Instalar dependencias con `pip install -r requirements.txt`
+- Ejecutar el archivo main.py desde consola activando uvicorn. Para ello, hacer `uvicorn main:app --reload`
+- Hacer Ctrl + clic sobre la dirección `http://XXX.X.X.X:XXXX` (se muestra en la consola).
+- Una vez en el navegador, agregar `/docs` para acceder a ReDoc.
+- En cada una de las funciones hacer clic en *Try it out* y luego introducir el dato que requiera o utilizar los ejemplos por defecto. Finalmente Ejecutar y observar la respuesta.
 
-**`Video`**: Necesitas que al equipo le quede claro que tus herramientas funcionan realmente! Haces un video mostrando el resultado de las consultas propuestas y de tu modelo de ML entrenado! Recuerda presentarte, contar muy brevemente de que trata el proyecto y lo que vas a estar mostrando en el video.
-Para grabarlo, puedes usar la herramienta Zoom, haciendo una videollamada y grabando la pantalla, aunque seguramente buscando, encuentres muchas formas más. 😉
+**`Deployment`**: Para el deploy de la API se seleccionó la plataforma Render que es una nube unificada para crear y ejecutar aplicaciones y sitios web, permitiendo el despliegue automático desde GitHub. Para esto se siguieron estos pasos:
+
+- Se generó un servicio nuevo  en `render.com`, conectado al presente repositorio.
+- Finalmente, el servicio queda corriendo en [https://modelo-recomendacion-steamgames.onrender.com/](https://modelo-recomendacion-steamgames.onrender.com/). Aunque, render no permite que el servicio se mantenga activo si queda inactivo.
+
+Como se indicó anteriormente, para el despliegue automático, Render utiliza GitHub y dado que el servicio gratuito cuenta con una limitada capacidad de almacenamiento, se realizó un repositorio exclusivo para el deploy, el cual se encuenta [aqui](https://github.com/pedrofranke/Recomendacion_Steamgames_deploy).
+
+**`Video`**: Se puede encontrar el video con la explicacion de lo realizado en el siguiente link: [link video]()
 
 ## **Consideraciones adicionales**
 
