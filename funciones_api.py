@@ -1,18 +1,17 @@
 import pandas as pd
-import operator
 
 # lectura de datasets
 
-df_playtime = pd.read_parquet('Datasets/parquet/API/playtime.parquet')
+df_plf = pd.read_parquet('Datasets/parquet/API/Surprise/df_plf.parquet')
+df_plf1 = pd.DataFrame(df_plf.groupby(['genres','release_year'])['playtime_forever'].sum().sort_values(ascending=False))
+df_plu2 = pd.DataFrame(df_plf.groupby(['genres','user_id'])['playtime_forever'].sum().sort_values(ascending=False))
 df_feel = pd.read_parquet('Datasets/parquet/API/feel.parquet')
-lista_generos = list(df_playtime.genres.sort_values().unique())
+lista_generos = list(df_plf1.droplevel(1).index.sort_values().unique())
 lista_anios = list(df_feel.release_year.sort_values().unique())
 lista_empresa = list(df_feel.developer.unique())
 
-user_rating_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user_rating_sim_df.parquet')
-user_ratings_matrix = pd.read_parquet('Datasets/parquet/Recomendacion/Final/user_ratings_matrix.parquet')
-diccionario_juegos = pd.read_parquet('Datasets/parquet/Recomendacion/Final/diccionario_juegos.parquet')
-item_sim_df = pd.read_parquet('Datasets/parquet/Recomendacion/Final/item_sim_df.parquet')
+df_usuarios = pd.read_parquet('Datasets/parquet/Recomendacion/Surprise/df_usuarios.parquet')
+df_titles = pd.read_parquet('Datasets/parquet/Recomendacion/Surprise/df_titles.parquet')
 
 def presentacion(): # estructura html de la pagina de inicio
     return '''
@@ -48,17 +47,15 @@ def presentacion(): # estructura html de la pagina de inicio
 def PlayTimeGenre(genre):
     if genre not in lista_generos:
         return 'El genero elegido no es valido'
-    df_plf = df_playtime[df_playtime['genres'] == genre].groupby(['release_year'])['playtime_forever'].sum().sort_values(ascending=False)
-    anio = df_plf.index[0]
+    anio = df_plf1.loc[genre].index[0]
     dic = {f"Año de lanzamiento con más horas jugadas para Género {genre}": str(anio)}
     return dic
 
 def UserForGenre(genre):
     if genre not in lista_generos:
         return 'El genero elegido no es valido'
-    df_plut = df_playtime[df_playtime['genres']==genre].groupby(['user_id'])['playtime_forever'].sum().sort_values(ascending=False)
-    user = df_plut.index[0]
-    df_plu = df_playtime[(df_playtime['genres']==genre) & (df_playtime['user_id']==user)].groupby(['release_year'])['playtime_forever'].sum().sort_index(ascending=False)
+    user = df_plu2.loc[genre].index[0]
+    df_plu = df_plf.loc[genre,:,user].groupby(['release_year'])['playtime_forever'].sum().sort_index(ascending=False)
     dic = {f'Usuario con más horas jugadas para Género {genre}':user}
     lista = []
     for index,value in df_plu.items():
@@ -104,44 +101,24 @@ def sentiment_analysis(empresa):
 
 def recomendacion_juego(item_id):
     try:
-        item_name = diccionario_juegos[diccionario_juegos.item_id==item_id].item_name.values[0]
+        result = df_titles[df_titles['itemID'] == item_id].ItemRecomendations.values[0]
+        resultado = []
+        count = 1
+        for i in result:
+            resultado.append({'Puesto':count,'ID':i,'Nombre':df_titles[df_titles['itemID'] == i].itemName.values[0]})
+            count +=1
+        return resultado
     except:
         return print(f'Sin informacion disponible para el juego {item_id}')
-    lista = []
-    count = 1
-    for item in item_sim_df.sort_values(by = item_name, ascending = False).index[1:6]:
-        lista.append({'Puesto':str(count),'ID':str(diccionario_juegos[diccionario_juegos.item_name==item].item_id.values[0]),'Nombre':str(item)})
-        count +=1
-    return lista
 
 def recomendacion_usuario(user_id):
-    similarity_constant = 0.7
-    if user_id not in user_rating_sim_df.columns:
-        return(f'Sin informacion disponible para ese usuario {user_id}')
-    
-    sim_users = user_rating_sim_df[user_rating_sim_df>similarity_constant].sort_values(by=user_id, ascending=False)
-
-    best = []
-    most_common = {}
-
-    for i in sim_users:
-        user_scores = user_ratings_matrix.loc[:, i]
-        max_scores = user_scores[user_scores>similarity_constant]
-        for j in max_scores:
-            best.append(user_ratings_matrix[user_ratings_matrix.loc[:, i]==j].index.tolist())
-        
-    for i in range(len(best)):
-        for j in best[i]:
-            if j in most_common:
-                most_common[j] += 1
-            else:
-                most_common[j] = 1
-    
-    sorted_list = sorted(most_common.items(), key=operator.itemgetter(1), reverse=True)
-    
-    lista = []
-    count = 1
-    for i in sorted_list[:5]:
-        lista.append({'Puesto':str(count),'ID':str(diccionario_juegos[diccionario_juegos.item_name==i[0]].item_id.values[0]),'Nombre':str(i[0])})
-        count +=1
-    return lista
+    try:
+        result = df_usuarios[df_usuarios['userID'] == user_id].userRecomendation.values[0]
+        resultado = []
+        count = 1
+        for i in result:
+            resultado.append({'Puesto':count,'ID':i,'Nombre':df_titles[df_titles['itemID'] == i].itemName.values[0]})
+            count +=1
+        return resultado
+    except:
+        return print(f'Sin informacion disponible para el usuario {user_id}')
